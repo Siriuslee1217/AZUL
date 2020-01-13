@@ -16,9 +16,10 @@
 from model import GameRunner,Player
 from iplayer import InteractivePlayer
 from naive_player import NaivePlayer
+from simple_player import SimplePlayer
 from utils import *
 
-players = [InteractivePlayer(0), NaivePlayer(1), NaivePlayer(2),NaivePlayer(3)]
+players = [SimplePlayer(0), NaivePlayer(1), NaivePlayer(2),NaivePlayer(3)]
 
 gr = GameRunner(players, 1384754856864)
 
