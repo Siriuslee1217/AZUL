@@ -13,7 +13,8 @@ class SimplePlayer(Player):
         tc = tgrab.tile_type
         col = int(playerstate.grid_scheme[tgrab.pattern_line_dest][tc])
         score_inc = 0
-
+        slots_free = (tgrab.pattern_line_dest + 2) - playerstate.lines_number[tgrab.pattern_line_dest]
+        
 
         # count the number of tiles in a continguous line
         # above, below, to the left and right of the placed tile.
@@ -59,10 +60,33 @@ class SimplePlayer(Player):
         if above == 0 and below == 0 and left == 0 \
             and right == 0:
             score_inc = 1
-        slots_free = (tgrab.pattern_line_dest + 2) - playerstate.lines_number[tgrab.pattern_line_dest]
         if tgrab.pattern_line_dest == -1:
-            return -tgrab.num_to_floor_line
-        return (score_inc - tgrab.num_to_floor_line) * (tgrab.num_to_pattern_line / slots_free)
+            score = -tgrab.num_to_floor_line
+
+        score = (score_inc - tgrab.num_to_floor_line) * (tgrab.num_to_pattern_line / slots_free)
+
+        # reward for first two lines
+        if tgrab.pattern_line_dest < 3:
+            score += 5
+        
+        # reward for persueing the same column
+        for j in range(playerstate.GRID_SIZE):
+            val = playerstate.grid_state[j][col]
+            score += val * j
+
+        # reward for persueing the same color
+        for j in range(playerstate.GRID_SIZE):
+            col = int(playerstate.grid_scheme[j][tc])
+            val = playerstate.grid_state[j][col]
+            score += val * j
+        
+        # reward for putting more tile to pattern_line
+        score += 3 * tgrab.num_to_pattern_line
+
+        # penalty for not filling all free slots in a pattern line
+        if tgrab.num_to_pattern_line < slots_free:
+            score -= 5
+        return score 
 
     def SelectMove(self, moves, game_state):
         # Select move that involves placing the most number of tiles
