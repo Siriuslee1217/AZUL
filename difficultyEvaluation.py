@@ -1,8 +1,9 @@
-import model as md
 from utils import Tile
 import random
 import copy
+
 class difficultyEvaluation:
+
 
     # a summary of all tiles in the factory now
     # return a dictionary, key: tile type, value: number
@@ -19,6 +20,8 @@ class difficultyEvaluation:
                         tiles[color] += tiles_fac[color]
 
         return tiles
+    
+    
     # Tiles chosen for next round in the bag
     # return a list of tiles
     def nextRoundPosibleTiles(self, gameState):
@@ -37,6 +40,7 @@ class difficultyEvaluation:
 
         return bagNextRound
 
+
     # Tiles possibility next round(num_tileType/ total)
     # return a dictionary, key: tileType, value: possibility next round
     def nextRoundPosibility(self, gameState):
@@ -50,6 +54,7 @@ class difficultyEvaluation:
                 ColorsPossibility[color] = tiles_NextRound[color]/tiles_NextRound["total"]
 
         return ColorsPossibility
+
 
     # number of tiles of different types and a total
     # return a dictionary, key: tile type and a "total", value: number
@@ -70,6 +75,7 @@ class difficultyEvaluation:
 
         return tiles
 
+
     # tiles left after a simulation for other players
     # 模拟完毕以后会不会有得分更高的move？
     def tilesPossibleNextPick(self, gameState, myid):
@@ -83,6 +89,7 @@ class difficultyEvaluation:
                 roundTiles[tileType] -= tileNum
 
         return roundTiles
+
 
     # possible available moves next pick after simulation
     # return a list of moves
@@ -100,12 +107,10 @@ class difficultyEvaluation:
         return availableMoves
 
 
-
-
-
     # tiles that other players can not place on lines
     # return dictionary, key: playerId, value:unavailable tiles(can only be placed on floor)
     def safeTiles(self, gameState):
+     
         players = gameState.players
         playerUnavailable = {}
 
