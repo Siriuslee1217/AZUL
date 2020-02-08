@@ -19,18 +19,20 @@ from naive_player import NaivePlayer
 from simple_player import SimplePlayer
 from utils import *
 
-players = [SimplePlayer(0), NaivePlayer(1), NaivePlayer(2),NaivePlayer(3)]
-
-gr = GameRunner(players, 1384754856864)
-
-activity = gr.Run(True)
-
-print("Player 0 score is {}".format(activity[0][0]))
+players = [NaivePlayer(0), SimplePlayer(1), NaivePlayer(2), NaivePlayer(3)]
+win = 0
+for i in range(1384754846764, 1384754846864):
+    gr = GameRunner(players, i)
+    activity = gr.Run(False)
+    if activity[1][0] == max([activity[0][0]], [activity[1][0]], [activity[2][0]], [activity[3][0]]):
+        win += 1
+print(win)
+'''print("Player 0 score is {}".format(activity[0][0]))
 print("Player 1 score is {}".format(activity[1][0]))
 print("Player 2 score is {}".format(activity[2][0]))
 print("Player 3 score is {}".format(activity[3][0]))
 
-
+'''
 #print("Player 0 round-by-round activity")
 #player_trace = activity[0][1]
 #for r in range(len(player_trace.moves)):
