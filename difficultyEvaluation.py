@@ -13,15 +13,15 @@ class difficultyEvaluation:
         for factory in gameState.factories:
             if factory != []:
                 if tiles == {}:
-                    tiles = self.sumTiles(factory)
+                    tiles = self.sumTiles(self, factory)
                 else:
-                    tiles_fac = self.sumTiles(factory)
+                    tiles_fac = self.sumTiles(self, factory)
                     for color in tiles.keys():
                         tiles[color] += tiles_fac[color]
 
         return tiles
-    
-    
+
+
     # Tiles chosen for next round in the bag
     # return a list of tiles
     def nextRoundPosibleTiles(self, gameState):
@@ -65,7 +65,7 @@ class difficultyEvaluation:
         tiles[Tile.BLUE] = 0
         tiles[Tile.WHITE] = 0
         tiles[Tile.YELLOW] = 0
-        for tile in bag:
+        for tile in bag.tiles:
             tiles[tile] += 1
 
         tiles["total"] = 0
@@ -103,14 +103,14 @@ class difficultyEvaluation:
                 state.ExecuteMove(playerState.id, bestMove(playerState))
 
         availableMoves = state.players[myId].GetAvailableMoves(state)
-        
+
         return availableMoves
 
 
     # tiles that other players can not place on lines
     # return dictionary, key: playerId, value:unavailable tiles(can only be placed on floor)
     def safeTiles(self, gameState):
-     
+
         players = gameState.players
         playerUnavailable = {}
 
